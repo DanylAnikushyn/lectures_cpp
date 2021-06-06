@@ -48,12 +48,12 @@ Vector<T>::Vector(const Vector<T>& other)
 }
 
 template <typename T>
-Vector<T>::Vector(Vector<T>&& other) 
+Vector<T>::Vector(Vector<T>&& other) noexcept
     : m_array(std::move(other.m_array)), m_size(std::move(other.m_size)), m_capacity(std::move(other.m_capacity))
 {
-    other.m_array = nullptr;
+    other.m_array = new T[1];
     other.m_size = 0;
-    other.m_size = 0;
+    other.m_capacity = 1;
 }
 
 template <typename T>
@@ -84,6 +84,19 @@ Vector<T>& Vector<T>::operator=(const Vector<T>& other)
 }
 
 template <typename T>
+Vector<T>& Vector<T>::operator=(Vector<T>&& other) noexcept
+{
+    m_array = std::move(other.m_array);
+    m_size = std::move(other.m_size);
+    m_capacity = std::move(other.m_capacity);
+    other.m_array = new T[1];
+    other.m_size = 0;
+    other.m_capacity = 0;
+
+    return *this;
+}
+
+template <typename T>
 Vector<T>& Vector<T>::operator=(std::initializer_list<T> init)
 {
     resize(0);
@@ -99,15 +112,29 @@ Vector<T>& Vector<T>::operator=(std::initializer_list<T> init)
 } 
 
 template <typename T>
-typename Vector<T>::iterator Vector<T>::begin() const
+typename Vector<T>::iterator Vector<T>::begin() const noexcept
 {
     return m_array;
 }
 
 template <typename T>
-typename Vector<T>::iterator Vector<T>::end() const
+typename Vector<T>::iterator Vector<T>::end() const noexcept
 {
     return m_array + m_size;
+}
+
+template <typename T>
+T* Vector<T>::data() noexcept
+{
+    return m_array;
+}
+
+template <typename T>
+void Vector<T>::swap(Vector<T>& other) noexcept
+{
+    std::swap(m_array, other.m_array);
+    std::swap(m_size, other.m_array);
+    std::swap(m_capacity, other.m_capacity);
 }
 
 template <typename T>
@@ -153,19 +180,19 @@ const T& Vector<T>::at(size_t index) const
 }
 
 template <typename T>
-size_t Vector<T>::size() const
+size_t Vector<T>::size() const noexcept
 {
     return m_size;
 }
 
 template <typename T>
-size_t Vector<T>::capacity() const
+size_t Vector<T>::capacity() const noexcept
 {
     return m_capacity;
 }
 
 template <typename T>
-bool Vector<T>::empty() const
+bool Vector<T>::empty() const noexcept
 {
     return m_size == 0 ? true : false;
 }

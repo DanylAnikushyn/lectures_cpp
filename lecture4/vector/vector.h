@@ -11,14 +11,18 @@ public:
     Vector();
     explicit Vector(size_t size, const T& value = T());
     Vector(const Vector& other);
-    Vector(Vector&& other);
+    Vector(Vector&& other) noexcept;
     Vector(std::initializer_list<T> init);
 
     Vector& operator=(const Vector& other);
+    Vector& operator=(Vector&& other) noexcept;
     Vector& operator=(std::initializer_list<T> init); 
 
-    iterator begin() const;
-    iterator end() const;
+    iterator begin() const noexcept;
+    iterator end() const noexcept;
+ 
+    T* data() noexcept;
+    void swap(Vector& other) noexcept;
 
     T& operator[](size_t index);
     const T& operator[](size_t index) const;
@@ -26,9 +30,9 @@ public:
     T& at(size_t index);
     const T& at(size_t index) const;
 
-    size_t size() const;
-    size_t capacity() const;
-    bool empty() const;
+    size_t size() const noexcept;
+    size_t capacity() const noexcept;
+    bool empty() const noexcept;
 
     void resize(size_t size, const T& value = T());
 
