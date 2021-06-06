@@ -37,6 +37,11 @@ int main()
         std::cout << err.what() << std::endl;
     }
 
+    Vector<int> vec3 = {1, 2, 3};
+    vec3.reserve(6);
+    std::cout << vec3.capacity() << std::endl;
+    vec3.shrink_to_fit();
+    std::cout << vec3.capacity() << std::endl;
     
     return 0;
 }

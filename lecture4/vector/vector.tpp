@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iostream>
 template <typename T>
-void Vector<T>::allocate()
+void Vector<T>::reallocate()
 {
     if (m_size >= m_capacity)
     {
@@ -17,6 +17,28 @@ void Vector<T>::allocate()
         delete[] m_array;
         m_array = new_array;
     }
+}
+
+template<typename T>
+void Vector<T>::reallocate(size_t size)
+{
+    m_capacity = 2 * size;
+    T* new_array = new T[m_capacity];
+    size_t iter_size = std::min(size, m_size);
+    for (int i = 0; i < iter_size; ++i)
+    {
+        new_array[i] = m_array[i];
+    }
+    if (size > m_size) 
+    {
+        for (int i = m_size; i < size; ++i)
+        {
+            new_array[i] = T();
+        }
+    }
+    m_size = size;
+    delete[] m_array;
+    m_array = new_array;
 }
 
 template <typename T>
@@ -204,7 +226,7 @@ void Vector<T>::resize(size_t size, const T& value)
     {
         size_t prev_size = m_size;
         m_size = size;
-        allocate();
+        reallocate();
         for (int i = prev_size; i != m_size; ++i)
         {
             m_array[i] = value;
@@ -227,7 +249,7 @@ void Vector<T>::clear()
 template <typename T>
 void Vector<T>::reserve(size_t size)
 {
-    if (size < m_capacity)
+    if (size > m_capacity)
     {
         m_capacity = size;
         T* new_array = new T[m_capacity];
@@ -305,7 +327,7 @@ template<typename T>
 template<typename... Args>
 void Vector<T>::emplace_back(Args&& ... args)
 {
-    allocate();
+    reallocate();
     m_array[m_size++] = T(std::forward<Args>(args)...);
 }
 
@@ -318,7 +340,7 @@ void Vector<T>::emplace(iterator place, Args&& ... args)
         ptrdiff_t diff = end() - place;
         size_t dest = m_size - diff;
 
-        allocate();
+        reallocate();
         ++m_size;
         for (int i = m_size ; i > dest; --i)
         {
@@ -330,6 +352,19 @@ void Vector<T>::emplace(iterator place, Args&& ... args)
     { 
         throw std::out_of_range("invalid iterator");
     }
+}
+
+template <typename T>
+void Vector<T>::shrink_to_fit()
+{
+    m_capacity = m_size;
+    T* new_array = new T[m_capacity];
+    for (int i = 0; i < m_size; ++i)
+    {
+        new_array[i] = m_array[i];
+    }
+    delete m_array;
+    m_array = new_array;
 }
 
 template <typename T>

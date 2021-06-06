@@ -51,9 +51,14 @@ public:
     template <typename... Args>
     void emplace(iterator place, Args&&... args);
 
+    void shrink_to_fit();
+
     ~Vector();
 private:
-    void allocate();
+    // reallocate m_array automatically, if m_size >= m_capacity
+    void reallocate();
+    // reallocate
+    void reallocate(size_t size);
 
     T* m_array;
     size_t m_size;
