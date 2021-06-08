@@ -4,24 +4,30 @@
 #include <chrono>
 #include <ctime>
 #include <cstring>
+#include <memory>
 
 class Logger 
 {
 public:
     virtual ~Logger() {}; 
-    virtual void log(const std::string& message) const = 0;
+    void log(const std::string& message) const
+    {
+        auto current = std::chrono::system_clock::now();
+        std::time_t current_time = std::chrono::system_clock::to_time_t(current);
+        char *time = ctime(&current_time);
+        if (time[strlen(time)-1] == '\n') time[strlen(time)-1] = '\0';
+        write(message, time);
+    }
+protected:
+    virtual void write(const std::string& message, const std::string& time) const = 0;
 };
 
 class ConsoleLogger : public Logger 
 {
-public:
-    void log(const std::string& message) const override
+protected:
+    void write(const std::string& message, const std::string& time) const override
     {
-        auto current = std::chrono::system_clock::now();
-        std::time_t current_time = std::chrono::system_clock::to_time_t(current);
-        char *t = ctime(&current_time);
-        if (t[strlen(t)-1] == '\n') t[strlen(t)-1] = '\0';
-        std::cout << level << ", " << t << ": [" << message << "]" << std::endl;
+        std::cout << level << ", " << time << ": [" << message << "]" << std::endl;
         ++level;
     }
 private:
@@ -32,16 +38,12 @@ unsigned ConsoleLogger::level = 0;
 
 class FileLogger : public Logger
 {
-public:
-    void log(const std::string& message) const override
+protected:
+    void write(const std::string& message, const std::string& time) const override
     {
         std::ofstream out;
         out.open("logs.txt", std::ofstream::out | std::ofstream::app);
-        auto current = std::chrono::system_clock::now();
-        std::time_t current_time = std::chrono::system_clock::to_time_t(current);
-        char *t = ctime(&current_time);
-        if (t[strlen(t)-1] == '\n') t[strlen(t)-1] = '\0';
-        out << level << ", " << t << ": [" << message << "]" << std::endl;
+        out << level << ", " << time << ": [" << message << "]" << std::endl;
         ++level;
         out.close();
     }
@@ -84,8 +86,12 @@ public:
 
 int main(int argc, char* argv[])
 {
-    OutputStream* output = new FileOutputStream();
-    output->log("hello");
-    output->log("world");
+    auto file_output = std::make_unique<FileOutputStream>();
+    file_output->log("hello");
+    auto console_output = std::make_unique<ConsoleOutputStream>();
+    console_output->log("something happened 1");
+    file_output->log("world");
+    console_output->log("something happened 2");
+    console_output->log("something happened 3");
     return 0;
 }
