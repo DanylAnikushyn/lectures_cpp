@@ -10,6 +10,9 @@ $(TARGET): $(OBJS)
 main.o: main.cpp sync_out_file_stream.h
 	$(CXX) -c $<
 
+%.o: %.cpp %.h
+	$(CXX) -c $<
+
 clean:
 	rm -rf $(OBJS) $(TARGET)
 
