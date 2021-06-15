@@ -11,7 +11,7 @@ public:
     MyWeakPtr(const MyWeakPtr& other);
     MyWeakPtr& operator=(const MySharedPtr& other);
     MyWeakPtr& operator=(const MyWeakPtr& other);
-    unsigned use_count() const;
+    std::size_t use_count() const;
     bool expired() const;
     MySharedPtr lock() const;
     ~MyWeakPtr();

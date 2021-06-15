@@ -11,3 +11,5 @@ void CObject::print() const
 {
     std::cout << m_a << std::endl;
 }
+CObject::~CObject() 
+{}

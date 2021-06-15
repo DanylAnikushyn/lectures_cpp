@@ -1,6 +1,6 @@
 #include "my_shared_ptr.h"
 #include "cobject.h"
-#include "stdexcept"
+#include <stdexcept>
 
 MySharedPtr::MySharedPtr(CObject* ptr) : m_ptr(ptr)
 {
@@ -66,7 +66,7 @@ CObject* MySharedPtr::get() const
 {
     return m_ptr;
 }
-unsigned MySharedPtr::get_count() const
+std::size_t MySharedPtr::get_count() const
 {
     return m_ctrl_block->ref_counter;
 }

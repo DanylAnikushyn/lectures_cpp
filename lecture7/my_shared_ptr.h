@@ -16,7 +16,7 @@ public:
     CObject& operator*() const;
     CObject* operator->() const;
     CObject* get() const;
-    unsigned get_count() const;
+    std::size_t get_count() const;
     ~MySharedPtr();
 private:
     CObject* m_ptr;

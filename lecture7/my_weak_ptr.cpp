@@ -34,7 +34,7 @@ MyWeakPtr& MyWeakPtr::operator=(const MyWeakPtr& other)
     m_ctrl_block->weak_counter++;
     return *this;
 }
-unsigned MyWeakPtr::use_count() const
+std::size_t MyWeakPtr::use_count() const
 {
     return m_ctrl_block->ref_counter;
 }
@@ -44,7 +44,7 @@ bool MyWeakPtr::expired() const
 }
 MySharedPtr MyWeakPtr::lock() const
 {
-    if (expired()) return MySharedPtr(nullptr); // !
+    if (expired()) return MySharedPtr(nullptr); 
     else return MySharedPtr(*this);
 }
 MyWeakPtr::~MyWeakPtr()
