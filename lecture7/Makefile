@@ -1,13 +1,13 @@
 CXX = g++
 TARGET = test
-OBJS = test.o cobject.o my_unique_ptr.o my_shared_ptr.o
+OBJS = test.o cobject.o my_unique_ptr.o my_shared_ptr.o my_weak_ptr.o
 
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CXX) -o $@ $^
 
-test.o: test.cpp cobject.h my_unique_ptr.h
+test.o: test.cpp 
 	$(CXX) -c $<
 
 %.o: %.cpp %.h

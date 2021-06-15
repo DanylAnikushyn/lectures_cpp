@@ -1,6 +1,8 @@
 #pragma once
+#include <atomic>
 
 struct ControlBlock
 {
-    unsigned ref_counter;
+    std::atomic<unsigned> ref_counter;
+    std::atomic<unsigned> weak_counter;
 };
