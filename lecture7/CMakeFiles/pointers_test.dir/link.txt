@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/pointers_test.dir/test.cpp.o CMakeFiles/pointers_test.dir/cobject.cpp.o CMakeFiles/pointers_test.dir/my_unique_ptr.cpp.o CMakeFiles/pointers_test.dir/my_shared_ptr.cpp.o CMakeFiles/pointers_test.dir/my_weak_ptr.cpp.o  -o pointers_test 

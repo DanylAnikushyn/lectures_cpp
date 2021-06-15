@@ -1,0 +1,3 @@
+/workspaces/lecture_c++_tasks/lecture7/CMakeFiles/rebuild_cache.dir
+/workspaces/lecture_c++_tasks/lecture7/CMakeFiles/edit_cache.dir
+/workspaces/lecture_c++_tasks/lecture7/CMakeFiles/pointers_test.dir
