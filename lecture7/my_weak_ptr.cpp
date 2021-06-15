@@ -15,7 +15,7 @@ MyWeakPtr::MyWeakPtr(const MyWeakPtr& other)
 MyWeakPtr& MyWeakPtr::operator=(const MySharedPtr& other)
 {
     m_ctrl_block->weak_counter--;
-    if(m_ctrl_block->weak_counter == 0)
+    if(m_ctrl_block->weak_counter == 0 && expired()) 
     {
         delete m_ctrl_block;
     }
@@ -50,7 +50,7 @@ MySharedPtr MyWeakPtr::lock() const
 MyWeakPtr::~MyWeakPtr()
 {
     m_ctrl_block->weak_counter--;
-    if(m_ctrl_block->weak_counter == 0)
+    if(m_ctrl_block->weak_counter == 0 && expired())
     {
         delete m_ctrl_block;
     }

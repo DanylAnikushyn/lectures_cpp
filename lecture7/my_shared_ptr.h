@@ -9,9 +9,10 @@ class MySharedPtr
 {
 public:
     MySharedPtr(CObject* ptr);
-    MySharedPtr(const MyWeakPtr& other);
     MySharedPtr(const MySharedPtr& other);
+    MySharedPtr(const MyWeakPtr& other);
     MySharedPtr& operator=(MySharedPtr& other);
+    MySharedPtr& operator=(MyWeakPtr& other);
     CObject& operator*() const;
     CObject* operator->() const;
     CObject* get() const;

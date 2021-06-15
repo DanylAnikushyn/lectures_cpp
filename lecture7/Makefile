@@ -4,6 +4,9 @@ OBJS = test.o cobject.o my_unique_ptr.o my_shared_ptr.o my_weak_ptr.o
 
 all: $(TARGET)
 
+mem_check: $(TARGET)
+	valgrind ./$(TARGET)
+
 $(TARGET): $(OBJS)
 	$(CXX) -o $@ $^
 

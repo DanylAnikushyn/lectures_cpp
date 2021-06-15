@@ -45,9 +45,36 @@ void test_my_shared_ptr()
     ptr2->print();
 }
 
+void test_my_weak_ptr()
+{
+    auto ptr1 = MySharedPtr(new CObject(1));
+    auto ptr2 = MySharedPtr(ptr1);
+    auto w_ptr1 = MyWeakPtr(ptr2);
+    std::cout << w_ptr1.use_count() << std::endl;
+    auto ptr3 = w_ptr1.lock();
+    if (ptr3.get() != nullptr) std::cout << *ptr3 << std::endl;
+    ptr3 = w_ptr1;
+    std::cout << *ptr3 << std::endl;
+    {
+        auto ptr4 = MySharedPtr(new CObject(4));
+        w_ptr1 = ptr4;
+    }
+    try 
+    {
+        ptr3 = w_ptr1;
+    }
+    catch(std::runtime_error e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+    auto ptr5 = w_ptr1.lock();
+    if (ptr5.get() != nullptr) std::cout << *ptr5 << std::endl;
+}
+
 int main(int argc, char* argv[])
 {
 //    test_my_unique_ptr();
-    test_my_shared_ptr();
+//    test_my_shared_ptr();
+    test_my_weak_ptr();
     return 0;
 }
