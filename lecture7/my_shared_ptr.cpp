@@ -72,8 +72,7 @@ std::size_t MySharedPtr::get_count() const
 }
 MySharedPtr::~MySharedPtr()
 {
-    m_ctrl_block->ref_counter--;
-    if (get_count() == 0) 
+    if (--m_ctrl_block->ref_counter == 0) 
     {
         if(m_ctrl_block->weak_counter == 0) delete m_ctrl_block;
         delete m_ptr;

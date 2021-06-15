@@ -63,7 +63,7 @@ void test_my_weak_ptr()
     {
         ptr3 = w_ptr1;
     }
-    catch(std::runtime_error e)
+    catch(const std::exception& e)
     {
         std::cout << e.what() << std::endl;
     }

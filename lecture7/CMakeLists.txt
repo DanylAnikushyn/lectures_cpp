@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
-
-# set the project name
-project(pointers_test)
+add_compile_options(-Wall -pedantic)
 
 # add the executable
 add_executable(pointers_test test.cpp cobject.cpp cobject.h control_block.h my_unique_ptr.cpp my_unique_ptr.h 
