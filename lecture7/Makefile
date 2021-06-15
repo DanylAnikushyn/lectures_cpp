@@ -1,6 +1,6 @@
 CXX = g++
 TARGET = test
-OBJS = test.o cobject.o my_unique_ptr.o
+OBJS = test.o cobject.o my_unique_ptr.o my_shared_ptr.o
 
 all: $(TARGET)
 
