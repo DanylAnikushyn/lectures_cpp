@@ -53,15 +53,15 @@ void test_my_weak_ptr()
     std::cout << w_ptr1.use_count() << std::endl;
     auto ptr3 = w_ptr1.lock();
     if (ptr3.get() != nullptr) std::cout << *ptr3 << std::endl;
-    ptr3 = w_ptr1;
+    auto ptr4 = MySharedPtr(w_ptr1);
     std::cout << *ptr3 << std::endl;
     {
-        auto ptr4 = MySharedPtr(new CObject(4));
-        w_ptr1 = ptr4;
+        auto ptr5 = MySharedPtr(new CObject(4));
+        w_ptr1 = ptr5;
     }
     try 
     {
-        ptr3 = w_ptr1;
+        auto ptr6(w_ptr1);
     }
     catch(const std::exception& e)
     {
