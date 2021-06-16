@@ -3,10 +3,10 @@
 class CObject 
 {
 public:
-    CObject(int a);
-    operator int() const;
+    CObject(int a) noexcept;
+    operator int() const noexcept;
     void print() const;
-    virtual ~CObject();
+    virtual ~CObject() noexcept;
 private:
     int m_a;
 };

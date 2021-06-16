@@ -7,7 +7,7 @@ MySharedPtr::MySharedPtr(CObject* ptr) : m_ptr(ptr)
     m_ctrl_block = new ControlBlock;
     m_ctrl_block->ref_counter = 1;
 }
-MySharedPtr::MySharedPtr(const MySharedPtr& other)
+MySharedPtr::MySharedPtr(const MySharedPtr& other) noexcept
 {
     m_ctrl_block = other.m_ctrl_block;
     m_ctrl_block->ref_counter++;
@@ -23,7 +23,7 @@ MySharedPtr::MySharedPtr(const MyWeakPtr& other)
     m_ctrl_block->ref_counter++;
     m_ptr = other.m_ptr;
 }
-MySharedPtr& MySharedPtr::operator=(MySharedPtr& other)
+MySharedPtr& MySharedPtr::operator=(MySharedPtr& other) noexcept
 {
     m_ctrl_block->ref_counter--;
     if (get_count() == 0) 
@@ -36,23 +36,23 @@ MySharedPtr& MySharedPtr::operator=(MySharedPtr& other)
     m_ptr = other.m_ptr;
     return *this;
 }
-CObject& MySharedPtr::operator*() const
+CObject& MySharedPtr::operator*() const noexcept
 {
     return *get();
 }
-CObject* MySharedPtr::operator->() const
+CObject* MySharedPtr::operator->() const noexcept
 {
     return get();
 }
-CObject* MySharedPtr::get() const
+CObject* MySharedPtr::get() const noexcept
 {
     return m_ptr;
 }
-std::size_t MySharedPtr::get_count() const
+std::size_t MySharedPtr::get_count() const noexcept
 {
     return m_ctrl_block->ref_counter;
 }
-MySharedPtr::~MySharedPtr()
+MySharedPtr::~MySharedPtr() noexcept
 {
     if (--m_ctrl_block->ref_counter == 0) 
     {

@@ -4,17 +4,17 @@
 class MyUniquePtr
 {
 public:
-    MyUniquePtr(CObject* ptr);
+    MyUniquePtr(CObject* ptr) noexcept;
     MyUniquePtr(const MyUniquePtr&) = delete;
     MyUniquePtr& operator=(const MyUniquePtr&) = delete;
-    MyUniquePtr(MyUniquePtr&& other);
-    MyUniquePtr& operator=(MyUniquePtr&& other);
-    CObject& operator*() const;
-    CObject* operator->() const;
-    CObject* get() const;
-    CObject* release();
-    void swap(MyUniquePtr& other);
-    ~MyUniquePtr();
+    MyUniquePtr(MyUniquePtr&& other) noexcept;
+    MyUniquePtr& operator=(MyUniquePtr&& other) noexcept;
+    CObject& operator*() const noexcept;
+    CObject* operator->() const noexcept;
+    CObject* get() const noexcept;
+    CObject* release() noexcept;
+    void swap(MyUniquePtr& other) noexcept;
+    ~MyUniquePtr() noexcept;
 private:
     CObject* m_ptr;
 };
