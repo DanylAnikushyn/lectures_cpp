@@ -3,6 +3,12 @@
 #include <fstream>
 #include <vector>
 
+// writing these derived from std::exception 
+// classes only for educational purpose
+// I think it would be better to derive from e.g. 
+// std::runtime_error and pass description of errors 
+// this way, or use std::ifstream::failure, what is
+// used in second function
 class CannotOpenFileException : public std::exception {
 public:
     const char* what() const noexcept override {
@@ -132,6 +138,20 @@ ErrorCode read_file_into_buffer_error_code(const  std::string& filename) {
     if (file.fail()) return ErrorCode::NO_CLOS;
     return ErrorCode::SUCCESS;
 }
+
+// pros of exceptions: -> cant be ignored
+//                     -> automatically propagation 
+//                     -> very useful in places where we cant return value
+//                     -> user defined types that can carry a lot of additional
+//                        information and logic
+//                     -> separation of error-handling code from normal program flow
+//
+// cons of exceptions: -> with no smart pointers it is very difficult to manage resource 
+//                        leaks
+//                     -> exceptions are more expansive than error codes
+//                     -> they create a lot of exit points, that arent easy to notice,
+//                        which isnt good for reading such code and maintaining it
+//                        (in my case, error codes create similar problem)
 
 int main() {
     auto error_code = read_file_into_buffer_error_code("test.txt");
